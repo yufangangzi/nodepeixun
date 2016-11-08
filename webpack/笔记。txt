@@ -1,0 +1,55 @@
+在项目中使用webpack  git bash 下
+
+1.先创建项目的文件夹,并且初始化git.
+$ mkdir webpack-demos && cd webpack-demos && git init
+
+2.初始化项目
+npm init
+
+3.增加.gitignore文件 作用是避免提交时提交大量代码
+在文件中增加如下
+node_modules
+.idea
+
+4.在根目录下创建src 和build 文件夹 src里面放源码  build里面放处理过的文件
+
+mkdir src build
+创建 src/component.js
+$ cd src && touch component.js
+exports.name = 'zfpx';
+
+创建 src/index.js
+$ cd src && touch index.js
+var comp = require('./component.js');
+console.log(comp.name);
+
+创建 build/index.html
+$ cd build && touch index.html
+<script src="bundle.js"></script>
+
+5.下载webpack
+npm install webpack --save
+
+6.创建webpack的配置文件
+touch webpack.config.js
+配置webpack.config.js
+
+var path = require('path');
+module.exports = {
+     //打包的入口文件  String|Object
+    entry: path.resolve(__dirname, 'src/index.js'),
+    output: { //配置打包结果     Object
+        //定义输出文件路径
+        path: path.resolve(__dirname, 'build'),
+        //指定打包文件名称
+        filename: 'bundle.js'
+    },
+};
+
+7.修改 package.json
+"scripts": {
++    "build": "webpack"
+  }
+
+8.在git bash 中运行。
+./node_modules/webpack/bin/webpack.js

@@ -2,35 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33251a18-27ca-4c1b-aca0-245ca3c66a88" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/nodepeixun.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cookie/cookie.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/MD5.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/expires.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/md5加密.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/quansever.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/server.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/server2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/url.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/http/缓存" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/1.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/2.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/copy.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/drain.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/name.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/name1.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/pipe.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/readstream.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/start.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/stream.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/path/writestream.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="nodepeixun.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -178,6 +150,13 @@
       <option name="number" value="Default" />
       <updated>1478507052912</updated>
     </task>
+    <task id="LOCAL-00001" summary="上课和预习第一次传笔记">
+      <created>1478507255110</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1478507255110</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -186,6 +165,7 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -204,6 +184,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="上课和预习第一次传笔记" />
+    <option name="LAST_COMMIT_MESSAGE" value="上课和预习第一次传笔记" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
