@@ -1,0 +1,124 @@
+重要属性
+属性	说明
+name=value	键值对，可以设置要保存的 Key/Value
+Domain	域名，默认是当前域名
+maxAge	最大失效时间(毫秒),设置在多少后失效
+secure	当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效
+Path	表示 cookie 影响到的路，如 path=/。如果路径不能匹配时，浏览器则不发送这个Cookie
+Expires	过期时间(秒)，在设置的某个时间点后该 Cookie 就会失效，如 expires=Money, 05-Dec-11 11:11:11 GMT
+httpOnly	如果在COOKIE中设置了httpOnly属性，则通过程序(JS脚本)将无法读取到COOKIE信息，防止XSS攻击产生
+向客户端发送cookie
+设置cookie
+ res.cookie(name,value,[,options]);
+参数	chrome对应属性	类型	说明	示例
+domain	Domain	String	域名，默认是当前域名	{domain:'a.zfpx.cn'}
+path	Path	String	路径，默认是/	{path:'/visit'}
+expires	Expires	Date	过期时间，如果没以有指定或为0表示当前会话有效	{expires:new Date(Date.now()+20*1000)}
+maxAge	Max-Age	Number	有效时间(单位是毫秒)	{maxAge:20*1000}
+httpOnly	HTTP	Boolean	不能通过浏览器javascript访问	{httpOnly:true}
+secure	Secure	String	只通过https协议访问
+
+
+
+获取cookie
+使用cookie-parser中间件
+
+$ npm install cookie-parser --save
+app.use(require('cookie-parser')());    //使用中间件
+response.cookie(key,value)              //在响应中向客户端设置cookie
+request.cookies                         //获取请求中的cookie对象
+response.clearCookie('username')        //清除cookie
+
+记录客户端的访问次数
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express();
+/**
+ * 如果要加密的话 cookieParser里要指定密码，而且signed要等于true
+ */
+app.use(cookieParser('zfpx'));
+app.get('/write',function(req,res){
+    //1.普通设置
+    //res.cookie('name','value');
+
+    //2.设置域名
+    //res.cookie('name','zfpx',{domain:'a.zfpx.cn'});
+
+    //3.设置路径
+    //res.cookie('name','zfpx',{path:'/visit'});
+
+    //4.过期时间
+    //res.cookie('name','zfpx',{expires:new Date(Date.now()+20*1000)});//毫秒
+    //res.cookie('name','zfpx',{maxAge:20*1000});//过期时间 毫秒
+
+    //httpOnly true还是false无意义 document.cookie取不到
+    //res.cookie('name','zfpx',{httpOnly:true});
+    res.cookie('age','123',{signed:true});
+    res.end('ok');
+});
+
+app.get('/read',function(req,res){
+    console.log(req.signedCookies);
+    res.send(req.cookies);
+});
+
+//记录这是客户端的第几次访问
+app.get('/visit',function(req,res){
+    res.cookie('count',isNaN(req.cookies.count)?0:parseInt(req.cookies.count)+1);
+    res.send(req.cookies);
+});
+
+
+app.listen(9090);
+
+
+要求用户输入用户名
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function setCookie(key,value){
+            document.cookie = key+"="+value;
+        }
+        function getCookie(key){
+            if(document.cookie){
+                var parts = document.cookie.split('; ');
+                for(var i=0;i<parts.length;i++){
+                    var vals = parts[i].split('=');
+                    if(vals[0]==key){
+                        return vals[1];
+                    }
+                }
+                return "";
+            }else{
+                return "";
+            }
+        }
+        function checkCookie(){
+            var username = getCookie('username');
+            if(username){
+                alert('欢迎'+username+'再次访问');
+                document.querySelector('#username').value = username;
+            }else{
+                username = prompt('请输入用户名:');
+                if(username){
+                    setCookie('username',username);
+                }
+            }
+        }
+    </script>
+</head>
+<body onLoad="checkCookie()">
+<input type="text" id="username">
+</body>
+</html>
+
+
+
+
+
+
+
+

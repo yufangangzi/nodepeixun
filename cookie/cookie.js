@@ -1,30 +1,42 @@
-var express=require('express');
-//构建一个express实例
-var app=express();
-//use表示使用一个中间件函数 next 是个函数 是一个有express提供的  继续下一个函数的意思
-app.use(function(req,res,next){
-    res.setHeader('Content-Type',"text/plain;charset=utf-8");
-    res.end('over');
-    next();//如果调用就继续执行下面的路由
-})
-//get请求 根据不通的路径处理就叫路由
-//第一个参数是pathname
-app.get('/index',function(req,res){
-    console.log('nihao 陈刚')
-    res.end('陈刚')
+//记录客户端的访问次数
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express();
+/**
+ * 如果要加密的话 cookieParser里要指定密码，而且signed要等于true
+ */
+app.use(cookieParser('zfpx'));
+app.get('/write',function(req,res){
+    //1.普通设置
+    //res.cookie('name','value');
+
+    //2.设置域名
+    //res.cookie('name','zfpx',{domain:'a.zfpx.cn'});
+
+    //3.设置路径
+    //res.cookie('name','zfpx',{path:'/visit'});
+
+    //4.过期时间
+    //res.cookie('name','zfpx',{expires:new Date(Date.now()+20*1000)});//毫秒
+    //res.cookie('name','zfpx',{maxAge:20*1000});//过期时间 毫秒
+
+    //httpOnly true还是false无意义 document.cookie取不到
+    //res.cookie('name','zfpx',{httpOnly:true});
+    res.cookie('age','123',{signed:true});
+    res.end('ok');
 });
 
-app.get('/home',function(req,res){
-    console.log('nihao 北京')
-    res.end('home')
+app.get('/read',function(req,res){
+    console.log(req.signedCookies);
+    res.send(req.cookies);
 });
 
-//匹配所有的路径
-app.all('*',function(req,res){
-    res.end('404')
+//记录这是客户端的第几次访问
+app.get('/visit',function(req,res){
+    res.cookie('count',isNaN(req.cookies.count)?0:parseInt(req.cookies.count)+1);
+    res.send(req.cookies);
 });
-app.get('*',function(req,res){
-    res.end('404')
-})
-app.listen(8080);
+
+
+app.listen(9090);
 
