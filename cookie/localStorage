@@ -1,0 +1,23 @@
+var obj={
+        name:'chen',
+        age:99
+    };
+    var ary=[1,2,3]
+    function Local(){
+
+    }
+    Local.prototype.set=function(key,value){
+        value=JSON.stringify(value);
+        if (window.localStorage) {
+            localStorage.setItem(key, value);
+        } else {
+            Cookie.write(key, value);
+        }
+    };
+    Local.prototype.get=function(key){
+        var strStoreDate = window.localStorage? localStorage.getItem(key): Cookie.read(key);
+        return JSON.parse(strStoreDate)
+    };
+    var l=new Local();
+    console.log(l.get('chen'));
+    l.set('chen',obj)

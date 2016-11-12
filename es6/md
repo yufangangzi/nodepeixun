@@ -1,0 +1,706 @@
+ 展开操作符
+把...放在数组前面可以把一个数组进行展开,可以把一个数组直接传入一个函数而不需要使用apply
+
+//传入参数
+let print = function(a,b,c){
+    console.log(a,b,c);
+}
+print([1,2,3]);
+print(...[1,2,3]);
+
+// 可以替代apply
+var m1 = Math.max.apply(null, [8, 9, 4, 1]);
+var m2 = Math.max(...[8, 9, 4, 1]);
+
+// 可以替代concat
+var arr1 = [1, 3];
+var arr2 = [3, 5];
+var arr3 = arr1.concat(arr2);
+var arr4 = [...arr1, ...arr2];
+console.log(arr3,arr4);
+
+//类数组的转数组
+function max(a,b,c) {
+    console.log(Math.max(...arguments));
+}
+max(1, 3, 4);
+
+
+剩余操作符
+剩余操作符可以把其余的参数的值都放到一个叫b的数组里面
+
+let rest = function(a,...b){
+    console.log(a,b);
+}
+rest(1,2,3);
+
+解构参数
+let destruct = function({name,age}){
+    console.log(name,age);
+}
+destruct({name:'zfpx',age:6});
+
+var desc = function descname(){}
+console.log(desc.name);
+
+
+箭头函数
+箭头函数简化了函数的的定义方式，一般以 "=>" 操作符左边为输入的参数，而右边则是进行的操作以及返回的值inputs=>output
+
+
+数组的新方法
+5.6.1 from
+将一个数组或者类数组变成数组,会复制一份
+
+let newArr = Array.from(oldArr);
+
+5.6.2 Array.of
+of是为了将一组数值,转换为数组
+
+console.log(Array(3, 4), Array(3, 4).length,
+Array.of(3, 4), Array.of(3, 4).length);
+
+5.6.3 copyWithin
+Array.prototype.copyWithin(target, start = 0, end = this.length) 盖目标的下标 开始的下标 结束的后一个的下标
+
+[1, 2, 3, 4, 5].copyWithin(0, 1, 2);
+
+
+5.6.4 find
+查到对应的元素和索引
+
+let arr = [1, 2 ,3, 3, 4, 5];
+    let find = arr.find((item, index, arr) => {
+        return item === 3;
+    });
+    let findIndex = arr.findIndex((item, index, arr) => {
+        return item === 3;
+    });
+
+    console.log(find, findIndex);
+
+
+5.6.5 fill
+就是填充数组的意思 会更改原数组 Array.prototype.fill(value, start, end = this.length);
+
+ let arr = [1, 2, 3, 4, 5, 6];
+ arr.fill('a', 1, 2);
+ console.log(arr);
+
+6. 对象
+6.1 对象字面量
+如果你想在对象里添加跟变量名一样的属性，并且属性的值就是变量表示的值就可以直接在对象里加上这些属性
+
+let name = 'zfpx';
+let age = 8;
+let getName = function(){
+    console.log(this.name);
+}
+let person = {
+    name,
+    age,
+    getName
+}
+person.getName();
+
+6.2 Object.is
+对比两个值是否相等
+
+console.log(Object.is(NaN,NaN));
+
+6.3 Object.assign
+把多个对象的属性复制到一个对象中,第一个参数是复制的对象,从第二个参数开始往后,都是复制的源对象
+
+var nameObj = {name:'zfpx'};
+var ageObj = {age:8};
+var obj = {};
+Object.assign(obj,nameObj,ageObj);
+console.log(obj);
+
+//克隆对象
+function clone (obj) {
+  return Object.assign({}, obj);
+}
+
+
+6.4 Object.setPrototypeOf
+将一个指定的对象的原型设置为另一个对象或者null
+
+var obj1  = {name:'zfpx1'};
+var obj2 =  {name:'zfpx2'};
+var obj = {};
+Object.setPrototypeOf(obj,obj1);
+console.log(obj.name);
+console.log(Object.getPrototypeOf(obj));
+Object.setPrototypeOf(obj,obj2);
+console.log(obj.name);
+console.log(Object.getPrototypeOf(obj));
+
+6.5 proto
+直接在对象表达式中设置prototype
+
+var obj1  = {name:'zfpx1'};
+var obj3 = {
+    __proto__:obj1
+}
+console.log(obj3.name);
+console.log(Object.getPrototypeOf(obj3));
+
+
+6.6 super
+通过super可以调用prototype上的属性或方法
+
+let person ={
+    eat(){
+        return 'milk';
+    }
+}
+let student = {
+    __proto__:person,
+    eat(){
+        return super.eat()+' bread'
+    }
+}
+console.log(student.eat());
+
+
+
+7. Symbol
+ES6引入了一种新的原始数据类型Symbol，表示独一无二的值 它是JavaScript语言的第七种数据类型
+
+7.1 生成Symbol
+Symbol值通过Symbol函数生成
+
+let s = Symbol('zfpx');
+console.log(s);
+
+
+7.2 作为属性名
+由于每一个Symbol值都是不相等的，这意味着Symbol值可以作为标识符，用于对象的属性名，就能保证不会出现同名的属性
+
+var luckNum = Symbol();
+var person = {};
+person[luckNum] = '9';
+
+console.log(person[luckNum] ); // 9
+
+在对象的内部，使用Symbol值定义属性时，Symbol值必须放在方括号之中
+var person = {[luckNum]: '8'};
+
+
+7.3 消除魔术变量
+var Operator = {
+    add: Symbol()
+};
+
+function calculate(op, a, b) {
+    switch (op) {
+        case Operator.add:
+            return a + b;
+            break;
+        case Operator.minus:
+            return a - b;
+            break;
+    }
+}
+
+console.log(calculate(Operator.add, 10,10));
+
+console.log(calculate(Operator.minus, 10,10));
+
+
+9.1 class
+使用class这个关键词定义一个类,基于这个类创建实例以后会自动执行constructor方法,此方法可以用来初始化
+
+class Person {
+    constructor(name){
+        this.name = name;
+    }
+    getName(){
+        console.log(this.name);
+    }
+}
+let person = new Person('zfpx');
+person.getName();
+
+9.2 get与set
+getter可以用来得获取属性，setter可以去设置属性
+
+class Person {
+    constructor(){
+        this.hobbies = [];
+    }
+    set hobby(hobby){
+        this.hobbies.push(hobby);
+    }
+    get hobby(){
+        return this.hobbies;
+    }
+}
+let person = new Person();
+person.hobby = 'basketball';
+person.hobby = 'football';
+console.log(person.hobby);
+
+9.3 静态方法-static
+在类里面添加静态的方法可以使用static这个关键词，静态方法就是不需要实例化类就能使用的方法
+
+class Person {
+   static add(a,b){
+       return a+b;
+   }
+}
+console.log(Person.add(1,2));
+
+9.4 继承extends
+一个类可以去继承其它的类里的东西
+
+class Person {
+   constructor(name){
+     this.name = name;
+   }
+}
+class Teacher extends Person{
+    constructor(name,age){
+        super(name);
+        this.age = age;
+    }
+}
+var teacher = new Teacher('zfpx',8);
+console.log(teacher.name,teacher.age);
+
+10.集合
+10.1 Set
+一个Set是一堆东西的集合,Set有点像数组,不过跟数组不一样的是，Set里面不能有重复的内容
+
+var books = new Set();
+books.add('js');
+books.add('js');//添加重复元素集合的元素个数不会改变
+books.add('html');
+books.forEach(function(book){//循环集合
+    console.log(book);
+})
+console.log(books.size);//集合中元数的个数
+console.log(books.has('js'));//判断集合中是否有此元素
+books.delete('js');//从集合中删除此元素
+console.log(books.size);
+console.log(books.has('js'));
+books.clear();//清空 set
+console.log(books.size);
+
+
+10.2 Map
+可以使用 Map 来组织这种名值对的数据
+
+var books = new Map();
+books.set('js',{name:'js'});//向map中添加元素
+books.set('html',{name:'html'});
+console.log(books.size);//查看集合中的元素
+console.log(books.get('js'));//通过key获取值
+books.delete('js');//执照key删除元素
+console.log(books.has('js'));//判断map中有没有key
+books.forEach((value, key) => { //forEach可以迭代map
+    console.log( key + ' = ' + value);
+});
+books.clear();//清空map
+
+
+
+Promise的三种状态
+Pending Promise对象实例创建时候的初始状态
+Fulfilled 可以理解为成功的状态
+Rejected 可以理解为失败的状态
+     then 方法就是用来指定Promise 对象的状态改变时确定执行的操作，
+     resolve 时执行第一个函数（onFulfilled），
+     reject 时执行第二个函数（onRejected）
+
+构造一个Promise
+4.1 使用Promise
+let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        if(Math.random()>0.5)
+            resolve('This is resolve!');
+        else
+            reject('This is reject!');
+    }, 1000);
+});
+promise.then(Fulfilled,Rejected)
+
+构造一个Promise实例需要给Promise构造函数传入一个函数。
+传入的函数需要有两个形参，两个形参都是function类型的参数。
+第一个形参运行后会让Promise实例处于resolve状态，
+  所以我们一般给第一个形参命名为resolve,
+  使 Promise 对象的状态改变成成功，同时传递一个参数用于后续成功后的操作
+第二个形参运行后会让Promise实例处于reject状态，
+  所以我们一般给第二个形参命名为reject,
+  将 Promise 对象的状态改变为失败，同时将错误的信息传递到后续错误处理的操作
+
+4.2 es5模拟Promise
+function Promise(fn) {
+    fn((data)=> {
+        this.success(data);
+    }, (error)=> {
+        this.error();
+    });
+}
+
+Promise.prototype.resolve = function (data) {
+    this.success(data);
+}
+
+Promise.prototype.reject = function (error) {
+    this.error(error);
+}
+
+Promise.prototype.then = function (success, error) {
+    this.success = success;
+    this.error = error;
+}
+
+4.3 es6模拟Promise
+class Promise {
+    constructor(fn) {
+        fn((data)=> {
+            this.success(data);
+        }, (error)=> {
+            this.error();
+        });
+    }
+
+    resolve(data) {
+        this.success(data);
+    }
+
+    reject(error) {
+        this.error(error);
+    }
+
+    then(success, error) {
+        this.success = success;
+        this.error = error;
+        console.log(this);
+    }
+}
+5. promise 做为函数的返回值
+function ajaxPromise (queryUrl) {
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', queryUrl, true);
+    xhr.send(null);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.responseText);
+        }
+      }
+    }
+  });
+}
+
+ajaxPromise('http://www.baidu.com')
+  .then((value) => {
+    console.log(value);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+6.promise的链式调用
+每次调用返回的都是一个新的Promise实例
+链式调用的参数通过返回值传递
+then可以使用链式调用的写法原因在于，每一次执行该方法时总是会返回一个Promise对象
+
+readFile('1.txt').then(function (data) {
+    console.log(data);
+    return data;
+}).then(function (data) {
+    console.log(data);
+    return readFile(data);
+}).then(function (data) {
+    console.log(data);
+}).catch(function(err){
+ console.log(err);
+});
+7.promise API
+7.1 Promise.all
+参数：接受一个数组，数组内都是Promise实例
+返回值：返回一个Promise实例，这个Promise实例的状态转移取决于参数的Promise实例的状态变化。当参数中所有的实例都处于resolve状态时，返回的Promise实例会变为resolve状态。如果参数中任意一个实例处于reject状态，返回的Promise实例变为reject状态。
+Promise.all([p1, p2]).then(function (result) {
+  console.log(result); // [ '2.txt', '2' ]
+});
+不管两个promise谁先完成，Promise.all 方法会按照数组里面的顺序将结果返回
+7.2 Promise.race
+参数：接受一个数组，数组内都是Promise实例
+返回值：返回一个Promise实例，这个Promise实例的状态转移取决于参数的Promise实例的状态变化。当参数中任何一个实例处于resolve状态时，返回的Promise实例会变为resolve状态。如果参数中任意一个实例处于reject状态，返回的Promise实例变为reject状态。
+Promise.race([p1, p2]).then(function (result) {
+  console.log(result); // [ '2.txt', '2' ]
+});
+7.3 Promise.resolve 返回一个Promise实例，这个实例处于resolve状态。
+根据传入的参数不同有不同的功能：
+
+值(对象、数组、字符串等)：作为resolve传递出去的值
+Promise实例：原封不动返回
+7.4 Promise.reject
+返回一个Promise实例，这个实例处于reject状态。
+
+参数一般就是抛出的错误信息。
+
+function testPromise(ready) {
+    return new Promise(function(resolve,reject){
+        if(ready) {
+            resolve("hello world");
+        }else {
+            reject("No thanks");
+        }
+    });
+};
+// 方法调用
+testPromise(true).then(function(msg){
+    console.log(msg);
+},function(error){
+    console.log(error);
+});
+
+如果我们知道了then方法每次都会创建返回一个新的promise对象的话，那么久不难理解下面的代码了；如下：
+
+复制代码
+var promise1 = new Promise(function(resolve){
+    resolve(1);
+});
+promise1.then(function(value){
+    return value * 2;
+});
+promise1.then(function(value){
+    return value * 2;
+});
+promise1.then(function(value){
+    console.log("1"+value);
+});
+复制代码
+如上的代码；打印出11；因为他们每次调用then方法时，是使用的不同的promise对象；因此最后打印的value还是1；但是如果我们then方法是连续调用的话，那情况就不一样了，比如如下代码：
+
+复制代码
+var promise1 = new Promise(function(resolve){
+    resolve(2);
+});
+promise1.then(function(value){
+    return value * 2;
+}).then(function(value){
+    return value * 2;
+}).then(function(value){
+    console.log("1"+value);
+});
+复制代码
+打印出18，即 "1" + 2*2*2 = 18;
+
+上面第一种方法没有使用方法链的调用，上面第一种那种写法then 调用几乎是同时开始进行的，且传给每个then的value都是1；
+
+第二种方式是使用方法链的then，使多个then方法连接在一起了，因此函数会严格执行 resolve -- then --- then -- then的顺序执行，并且传递每个then方法的value的值都是前一个promise对象中return的值；因此最后的结果就是18了；
+
+现在我们再回过头一刚开始我们讨论的为什么要使用promise的原因的问题了，比如2个ajax请求，后一个ajax请求需要获取到前一个ajax请求的数据，我们之前在使用jquery写代码是如下的：
+
+复制代码
+$.ajax({
+   url: '',
+   dataType:'json',
+   success: function(data) {
+    // 获取data数据 传给下一个请求
+    var id = data.id;
+    $.ajax({
+        url:'',
+        data:{"id":id},
+        success:function(){
+            // .....
+        }
+    });
+  }
+});
+复制代码
+现在我们学习了then方法后，我们可以重新编写上面的代码变成如下：
+
+复制代码
+var ajaxPromise = new Promise(function(resolve){
+    resolve();
+});
+ajaxPromise.then(function(){
+    $.ajax({
+        url:'',
+        dataType:'json',
+        success: function(data) {
+            var id = data.id;
+            return id;
+        }
+    })
+}).then(function(id){
+    $.ajax({
+        url:'',
+        dataType:'json',
+        data:{"id":id},
+        success: function(data){
+            console.log(data);
+        }
+    })
+});
+
+理解Promise.all
+
+Promise.all可以接受一个元素为Promise对象的数组作为参数，当这个数组里面所有的promise对象都变为resolve时，该方法才会返回。
+
+如下代码：
+
+复制代码
+var promise1 = new Promise(function(resolve){
+    setTimeout(function(){
+        resolve(1);
+    },3000);
+});
+var promise2 = new Promise(function(resolve){
+    setTimeout(function(){
+        resolve(2);
+    },1000);
+});
+Promise.all([promise1,promise2]).then(function(value){
+    console.log(value); // 打印[1,2]
+});
+
+
+理解Promise.race
+
+如上可知：Promise.all 在接收到的所有对象promise都变为FulFilled或者 Rejected状态之后才会继续后面的处理，但是Promise.race的含义是只要有一个promise对象进入FulFilled或者Rejected状态的话，程序就会停止，且会继续后面的处理逻辑；
+
+如下代码：
+
+复制代码
+// `delay`毫秒后执行resolve
+function timerPromise(delay){
+    return new Promise(function(resolve){
+        setTimeout(function(){
+            resolve(delay);
+        },delay);
+    });
+}
+// 任何一个promise变为resolve或reject 的话程序就停止运行
+Promise.race([
+    timerPromise(1),
+    timerPromise(32),
+    timerPromise(64),
+    timerPromise(128)
+]).then(function (value) {
+    console.log(value);    // => 1
+});
+复制代码
+如上代码创建了4个promise对象，这些promise对象分别在1ms,32ms,64ms,128ms后变为确定状态，并且在第一个变为确定状态后1ms后，then函数就会被调用，这时候resolve()方法给传递的值为1，因此执行then的回调函数后，值变为1；
+
+我们再来看看当一个promise对象变为确定状态(FulFiled)的时候，他们后面的promise对象是否还在运行呢？我们继续看如下代码运行：
+
+复制代码
+var runPromise = new Promise(function(resolve){
+    setTimeout(function(){
+        console.log(1);
+        resolve(2);
+    },500);
+});
+var runPromise2 = new Promise(function(resolve){
+    setTimeout(function(){
+        console.log(3);
+        resolve(4);
+    },1000);
+});
+// 第一个promise变为resolve后程序停止
+Promise.race([runPromise,runPromise2]).then(function(value){
+    console.log(value);
+});
+复制代码
+   如上代码是使用定时器调用的，上面是2个promise对象，我们看到第一个promise对象过500毫秒后加入到执行队列里面去，如果执行队列没有其他线程在运行的时候，就执行该定时器，所以第一次打印1，然后调用resolve(2); 接着调用promise.race方法，该方法只要有一个变为成功状态(FulFiled)的时候，程序就会停止，因此打印出2，同时后面的promise对象接着执行，因此打印出3，但是由于promise.race()该方法已经停止调用了，所以resolve(4)不会有任何输出；因此最后输出的是1,2,3；
+
+由此我们得出结论，当一个promise对象变为(FulFilled)成功状态的时候，后面的promise对象并没有停止运行。
+
+
+Deferred和Promise的关系
+
+Deferred 包含 Promise；
+
+Deferred具备Promise的状态进行操作的特权方法；
+
+下面我们来看看使用promise来实现deferred;如下代码：
+
+复制代码
+function Deferred(){
+    this.promise = new Promise(function(resolve,reject){
+        this._resolve = resolve;
+        this._reject = reject;
+    }.bind(this));
+}
+Deferred.prototype.resolve = function(value) {
+    this._resolve.call(this.promise,value);
+};
+Deferred.prototype.reject = function(reason) {
+    this._reject.call(this.promise,reason);
+};
+function getURL(URL){
+    var deferred = new Deferred();
+    var req = new XMLHttpRequest();
+    req.open('GET',URL,true);
+    req.onload = function(){
+        if(req.status === 200) {
+            deferred.resolve(req.responseText);
+        }else {
+            deferred.reject(new Error(req.statusText));
+        }
+    };
+    req.onerror = function(){
+        deferred.reject(new Error(req.statusText));
+    };
+    req.send();
+    return deferred.promise;
+}
+var URL = 'http://127.0.0.1/promise/promise.php';
+getURL(URL).then(function onFulfilled(value){
+    console.log(value);
+});
+复制代码
+其中promise.php代码输出的是一个json的数据，代码如下：
+
+复制代码
+<?php
+    $data = json_decode(file_get_contents("php://input"));
+    header("Content-Type: application/json; charset=utf-8");
+    echo ('{"id" : ' . $data->id . ', "age" : 24, "sex" : "boy", "name" : "huangxueming"}');
+?>
+复制代码
+最后执行打印console的出来是：
+
+{"id" : , "age" : 24, "sex" : "boy", "name" : "huangxueming"}
+
+使用promise封装deferred的方法，无非就是使用promise对象中的resolve和Reject等调用方法，下面我们再来看看使用promise对象对ajax请求的封装如下：
+
+复制代码
+function getURL(URL){
+    return new Promise(function (resolve, reject) {
+        var req = new XMLHttpRequest();
+        req.open('GET', URL, true);
+        req.onload = function () {
+            if (req.status === 200) {
+                resolve(req.responseText);
+            } else {
+                reject(new Error(req.statusText));
+            }
+        };
+        req.onerror = function () {
+            reject(new Error(req.statusText));
+        };
+        req.send();
+    });
+}
+var URL = 'http://127.0.0.1/promise/promise.php';
+getURL(URL).then(function onFulfilled(value){
+    console.log(value);
+});
+复制代码
+上面分别两种方式使用promise对象实现ajax请求的封装对比如下：
+
+ Deferred那种方式不需要将promise代码括起来。
+
+Promise代表了一个对象，这个对象的状态现在还不确定，但是未来一个时间点它的状态要么变为正常值（FulFilled），要么变为异常值（Rejected）；而Deferred对象表示了一个处理还没有结束的这种事实，在它的处理结束的时候，可以通过Promise来取得处理结果
+
