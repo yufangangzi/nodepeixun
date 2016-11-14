@@ -1,0 +1,40 @@
+var users=[
+    {id:1,name:'张三'},
+    {id:2,name:'李四'}
+
+];
+var express=require('express');
+var app=express();
+var path=require('path');
+//设置模板引擎
+app.set('view engine','html');
+app.set('views',path.join(__dirname,'views'));
+//设置对于html的模板用ejs来渲染
+app.engine('.html',require('ejs').__express);
+
+app.use(function(req,res,next){
+    //res.setHeader('Content-Type',"text/html;charset=utf-8");
+    //next是个函数 如果调用他 说明此中间件已经执行完毕 可以向下执行
+    next()
+});
+app.get('/users/:id',function(req,res){
+    var id= req.params.id;
+    var user=users.find(function(user){
+        return user.id==id;
+    });
+    //最后都是用到locals  如果相同的话 可以放在中间件中
+    res.locals.title='用户'
+    //用数据渲染末班 1模板的相对路径 2是模板数据对象
+    res.render('user',user)
+
+});
+
+app.listen(8080);
+
+
+//redirect实现的原理
+res.redirect=function(path){
+        res.statusCode=302;
+        res.setHeader('Location',path)
+        res.end()
+    }
